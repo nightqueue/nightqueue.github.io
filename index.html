@@ -82,10 +82,13 @@
       <div class="pipe-scroll">
 <svg class="pipeline" viewBox="0 0 1180 210" width="1180" height="210" role="img" aria-label="A job moves through the pipeline: queue add, triage, explore, architect, implement, adversarial QA, verify, runtime check, pull request. Each stage works, then approves, then hands the job on." xmlns="http://www.w3.org/2000/svg">
 <line x1="70.0" y1="78" x2="1110.0" y2="78" stroke="#252a38" stroke-width="2"/>
-<line id="pp" x1="70.0" y1="78" x2="70.0" y2="78" stroke="#5aa07a" stroke-width="2" stroke-linecap="round"/>
+<line id="pp" x1="70.0" y1="78" x2="70.0" y2="78" stroke="#3a4050" stroke-width="2" stroke-linecap="round"/>
+<line id="pg" x1="70.0" y1="78" x2="70.0" y2="78" stroke="#8cc8a0" stroke-width="2" stroke-linecap="round"/>
+<circle id="ptok" cx="70.0" cy="78" r="7" fill="#c9ccd4" style="filter:drop-shadow(0 0 5px #c9ccd4)"/>
+<text id="plog" x="70.0" y="36" text-anchor="middle" font-size="12" fill="#a0a4b0" font-family="ui-monospace,Menlo,monospace" opacity="0"></text>
 <g class="node" data-i="0" data-lines="nq queue add &quot;fix the flaky worker&quot;|job #7 queued · tier: simple">
 <circle class="ring" cx="70.0" cy="78" r="26" fill="#12151e" stroke="#252a38" stroke-width="2"/>
-<circle class="spin" cx="70.0" cy="78" r="31" fill="none" stroke="#8cc8a0" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:70.0px 78px"/>
+<circle class="spin" cx="70.0" cy="78" r="31" fill="none" stroke="#7d8598" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:70.0px 78px"/>
 <text x="70.0" y="86" text-anchor="middle" font-size="22">📥</text>
 <g class="check" opacity="0"><circle cx="90.0" cy="58" r="10" fill="#8cc8a0"/><path d="M 85.0 58 l 4 4 l 7 -8" fill="none" stroke="#0b0d14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
 <text x="70.0" y="128" text-anchor="middle" font-size="13" fill="#f5f5f0" font-family="ui-sans-serif,system-ui,sans-serif">queue add</text>
@@ -93,7 +96,7 @@
 </g>
 <g class="node" data-i="1" data-lines="reading the request|grep -rn &quot;worker&quot; src/|reproducing on main|brief: root cause found">
 <circle class="ring" cx="200.0" cy="78" r="26" fill="#12151e" stroke="#252a38" stroke-width="2"/>
-<circle class="spin" cx="200.0" cy="78" r="31" fill="none" stroke="#8cc8a0" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:200.0px 78px"/>
+<circle class="spin" cx="200.0" cy="78" r="31" fill="none" stroke="#7d8598" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:200.0px 78px"/>
 <text x="200.0" y="86" text-anchor="middle" font-size="22">🔎</text>
 <g class="check" opacity="0"><circle cx="220.0" cy="58" r="10" fill="#8cc8a0"/><path d="M 215.0 58 l 4 4 l 7 -8" fill="none" stroke="#0b0d14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
 <text x="200.0" y="128" text-anchor="middle" font-size="13" fill="#f5f5f0" font-family="ui-sans-serif,system-ui,sans-serif">triage</text>
@@ -101,7 +104,7 @@
 </g>
 <g class="node" data-i="2" data-lines="mapping src/queue/|index_recall runner|reading runner.mjs|file map: 14 files">
 <circle class="ring" cx="330.0" cy="78" r="26" fill="#12151e" stroke="#252a38" stroke-width="2"/>
-<circle class="spin" cx="330.0" cy="78" r="31" fill="none" stroke="#8cc8a0" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:330.0px 78px"/>
+<circle class="spin" cx="330.0" cy="78" r="31" fill="none" stroke="#7d8598" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:330.0px 78px"/>
 <text x="330.0" y="86" text-anchor="middle" font-size="22">🧭</text>
 <g class="check" opacity="0"><circle cx="350.0" cy="58" r="10" fill="#8cc8a0"/><path d="M 345.0 58 l 4 4 l 7 -8" fill="none" stroke="#0b0d14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
 <text x="330.0" y="128" text-anchor="middle" font-size="13" fill="#f5f5f0" font-family="ui-sans-serif,system-ui,sans-serif">explore</text>
@@ -109,7 +112,7 @@
 </g>
 <g class="node" data-i="3" data-lines="decision_recall lease|plan: 3 steps|risk: lease race|03-plan.md written">
 <circle class="ring" cx="460.0" cy="78" r="26" fill="#12151e" stroke="#252a38" stroke-width="2"/>
-<circle class="spin" cx="460.0" cy="78" r="31" fill="none" stroke="#8cc8a0" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:460.0px 78px"/>
+<circle class="spin" cx="460.0" cy="78" r="31" fill="none" stroke="#7d8598" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:460.0px 78px"/>
 <text x="460.0" y="86" text-anchor="middle" font-size="22">📐</text>
 <g class="check" opacity="0"><circle cx="480.0" cy="58" r="10" fill="#8cc8a0"/><path d="M 475.0 58 l 4 4 l 7 -8" fill="none" stroke="#0b0d14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
 <text x="460.0" y="128" text-anchor="middle" font-size="13" fill="#f5f5f0" font-family="ui-sans-serif,system-ui,sans-serif">architect</text>
@@ -117,7 +120,7 @@
 </g>
 <g class="node" data-i="4" data-lines="edit src/queue/runner.mjs|sed -i 's/lease/claim/'|npm test → 2104 pass|changes staged">
 <circle class="ring" cx="590.0" cy="78" r="26" fill="#12151e" stroke="#252a38" stroke-width="2"/>
-<circle class="spin" cx="590.0" cy="78" r="31" fill="none" stroke="#8cc8a0" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:590.0px 78px"/>
+<circle class="spin" cx="590.0" cy="78" r="31" fill="none" stroke="#7d8598" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:590.0px 78px"/>
 <text x="590.0" y="86" text-anchor="middle" font-size="22">🛠️</text>
 <g class="check" opacity="0"><circle cx="610.0" cy="58" r="10" fill="#8cc8a0"/><path d="M 605.0 58 l 4 4 l 7 -8" fill="none" stroke="#0b0d14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
 <text x="590.0" y="128" text-anchor="middle" font-size="13" fill="#f5f5f0" font-family="ui-sans-serif,system-ui,sans-serif">implement</text>
@@ -125,7 +128,7 @@
 </g>
 <g class="node" data-i="5" data-lines="fuzz: empty queue|attack: killed runner|lease expiry ×3|verdict: APPROVED">
 <circle class="ring" cx="720.0" cy="78" r="26" fill="#12151e" stroke="#252a38" stroke-width="2"/>
-<circle class="spin" cx="720.0" cy="78" r="31" fill="none" stroke="#8cc8a0" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:720.0px 78px"/>
+<circle class="spin" cx="720.0" cy="78" r="31" fill="none" stroke="#7d8598" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:720.0px 78px"/>
 <text x="720.0" y="86" text-anchor="middle" font-size="22">🛡️</text>
 <g class="check" opacity="0"><circle cx="740.0" cy="58" r="10" fill="#8cc8a0"/><path d="M 735.0 58 l 4 4 l 7 -8" fill="none" stroke="#0b0d14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
 <text x="720.0" y="128" text-anchor="middle" font-size="13" fill="#f5f5f0" font-family="ui-sans-serif,system-ui,sans-serif">adversarial QA</text>
@@ -133,7 +136,7 @@
 </g>
 <g class="node" data-i="6" data-lines="npm test|checks: 3/3 green|evidence collected|VERIFIED">
 <circle class="ring" cx="850.0" cy="78" r="26" fill="#12151e" stroke="#252a38" stroke-width="2"/>
-<circle class="spin" cx="850.0" cy="78" r="31" fill="none" stroke="#8cc8a0" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:850.0px 78px"/>
+<circle class="spin" cx="850.0" cy="78" r="31" fill="none" stroke="#7d8598" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:850.0px 78px"/>
 <text x="850.0" y="86" text-anchor="middle" font-size="22">✅</text>
 <g class="check" opacity="0"><circle cx="870.0" cy="58" r="10" fill="#8cc8a0"/><path d="M 865.0 58 l 4 4 l 7 -8" fill="none" stroke="#0b0d14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
 <text x="850.0" y="128" text-anchor="middle" font-size="13" fill="#f5f5f0" font-family="ui-sans-serif,system-ui,sans-serif">verify</text>
@@ -141,7 +144,7 @@
 </g>
 <g class="node" data-i="7" data-lines="real run: nq queue run|runner claims job|no gate raised|ok">
 <circle class="ring" cx="980.0" cy="78" r="26" fill="#12151e" stroke="#252a38" stroke-width="2"/>
-<circle class="spin" cx="980.0" cy="78" r="31" fill="none" stroke="#8cc8a0" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:980.0px 78px"/>
+<circle class="spin" cx="980.0" cy="78" r="31" fill="none" stroke="#7d8598" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:980.0px 78px"/>
 <text x="980.0" y="86" text-anchor="middle" font-size="22">⚙️</text>
 <g class="check" opacity="0"><circle cx="1000.0" cy="58" r="10" fill="#8cc8a0"/><path d="M 995.0 58 l 4 4 l 7 -8" fill="none" stroke="#0b0d14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
 <text x="980.0" y="128" text-anchor="middle" font-size="13" fill="#f5f5f0" font-family="ui-sans-serif,system-ui,sans-serif">runtime check</text>
@@ -149,14 +152,14 @@
 </g>
 <g class="node" data-i="8" data-lines="git push -u origin|gh pr create|PR #42 opened|lesson saved">
 <circle class="ring" cx="1110.0" cy="78" r="26" fill="#12151e" stroke="#252a38" stroke-width="2"/>
-<circle class="spin" cx="1110.0" cy="78" r="31" fill="none" stroke="#8cc8a0" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:1110.0px 78px"/>
+<circle class="spin" cx="1110.0" cy="78" r="31" fill="none" stroke="#7d8598" stroke-width="2" stroke-dasharray="40 160" stroke-linecap="round" opacity="0" style="transform-origin:1110.0px 78px"/>
 <text x="1110.0" y="86" text-anchor="middle" font-size="22">🔀</text>
 <g class="check" opacity="0"><circle cx="1130.0" cy="58" r="10" fill="#8cc8a0"/><path d="M 1125.0 58 l 4 4 l 7 -8" fill="none" stroke="#0b0d14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
 <text x="1110.0" y="128" text-anchor="middle" font-size="13" fill="#f5f5f0" font-family="ui-sans-serif,system-ui,sans-serif">pull request</text>
 <text x="1110.0" y="146" text-anchor="middle" font-size="12" fill="#6b7080" font-family="ui-monospace,Menlo,monospace">done</text>
 </g>
-<text id="plog" x="70.0" y="36" text-anchor="middle" font-size="12" fill="#8cc8a0" font-family="ui-monospace,Menlo,monospace" opacity="0"></text>
-<circle id="ptok" cx="70.0" cy="78" r="7" fill="#8cc8a0" style="filter:drop-shadow(0 0 6px #8cc8a0)"/>
+
+
 </svg>
       </div>
       <p>Every phase is a dedicated subagent with its own instructions, running in a git worktree it cannot leave. Each phase writes an artifact the next one is gated on; a job that needs a decision stops with a written notice, and one command sends it back.</p>
@@ -221,20 +224,24 @@ nq queue close 8                           <span class="c"># merge its pull requ
 <script>
 (function(){
   const svg=document.querySelector('svg.pipeline'); if(!svg) return;
-  const nodes=[...svg.querySelectorAll('.node')], tok=svg.querySelector('#ptok'), prog=svg.querySelector('#pp'), log=svg.querySelector('#plog');
+  const nodes=[...svg.querySelectorAll('.node')], tok=svg.querySelector('#ptok'), pn=svg.querySelector('#pp'), pg=svg.querySelector('#pg'), log=svg.querySelector('#plog');
   const xs=nodes.map(n=>+n.querySelector('.ring').getAttribute('cx'));
+  const NEUTRAL='#7d8598', GREEN='#8cc8a0', IDLE='#252a38';
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const sleep=ms=>new Promise(r=>setTimeout(r,ms));
   function setNode(n,state){ const ring=n.querySelector('.ring'),spin=n.querySelector('.spin'),chk=n.querySelector('.check');
-    ring.setAttribute('stroke', state==='idle'?'#252a38':'#8cc8a0'); spin.setAttribute('opacity', state==='work'?'1':'0'); spin.classList.toggle('on',state==='work'); chk.setAttribute('opacity', state==='done'?'1':'0'); }
-  function place(x){ tok.setAttribute('cx',x); prog.setAttribute('x2',x); log.setAttribute('x',x); }
-  if(reduce){ nodes.forEach(n=>setNode(n,'done')); place(xs[xs.length-1]); return; }
-  tok.style.transition='cx .55s cubic-bezier(.4,0,.2,1)'; prog.style.transition='x2 .55s cubic-bezier(.4,0,.2,1)'; log.style.transition='opacity .2s';
-  async function run(){ for(;;){ nodes.forEach(n=>setNode(n,'idle')); place(xs[0]);
+    ring.setAttribute('stroke', state==='work'?NEUTRAL: state==='done'?GREEN:IDLE);
+    spin.setAttribute('opacity', state==='work'?'1':'0'); spin.classList.toggle('on',state==='work');
+    chk.setAttribute('opacity', state==='done'?'1':'0'); }
+  function place(x){ tok.setAttribute('cx',x); pn.setAttribute('x2',x); log.setAttribute('x',x); }
+  if(reduce){ nodes.forEach(n=>setNode(n,'done')); place(xs[xs.length-1]); pg.setAttribute('x2',xs[xs.length-1]); return; }
+  for(const el of [tok,pn,pg]) el.style.transition=(el===tok?'cx':'x2')+' .55s cubic-bezier(.4,0,.2,1)';
+  log.style.transition='opacity .2s';
+  async function run(){ for(;;){ nodes.forEach(n=>setNode(n,'idle')); place(xs[0]); pg.setAttribute('x2',xs[0]);
     for(let i=0;i<nodes.length;i++){ const n=nodes[i]; place(xs[i]); await sleep(i?600:200);
       setNode(n,'work'); const lines=n.dataset.lines.split('|');
       for(const l of lines){ log.setAttribute('opacity','0'); await sleep(120); log.textContent=l; log.setAttribute('opacity','1'); await sleep(520); }
-      setNode(n,'done'); await sleep(450); log.setAttribute('opacity','0'); }
+      setNode(n,'done'); pg.setAttribute('x2',xs[i]); await sleep(450); log.setAttribute('opacity','0'); }
     await sleep(1600); } }
   run();
 })();
