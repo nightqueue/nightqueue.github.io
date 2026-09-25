@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nightqueue — an autonomous queue of coding agents with its own memory</title>
+<meta name="description" content="Queue the work during the day. Start the batch when you step away. Come back to pull requests — and to an agent that remembers what it learned last night. Runs on Claude Code, on your machine.">
+<meta property="og:title" content="nightqueue">
+<meta property="og:description" content="An autonomous queue of coding agents with its own memory. Runs on Claude Code, on your machine.">
+<meta property="og:image" content="https://nightqueue.github.io/og.png">
+<meta property="og:url" content="https://nightqueue.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0d14'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' fill='%238cc8a0' text-anchor='middle'%3Enq%3C/text%3E%3C/svg%3E">
+<style>
+  :root{--bg:#0b0d14;--bg2:#12151e;--line:#252a38;--fg:#f5f5f0;--muted:#a0a4b0;--dim:#6b7080;--acc:#8cc8a0;--acc2:#5aa07a}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  code,pre,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  header{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+  .brand{font-weight:700;font-size:20px;color:var(--fg)}
+  nav a{color:var(--muted);margin-left:22px;font-size:15px}nav a:hover{color:var(--fg);text-decoration:none}
+  .hero{padding:72px 0 48px}
+  .eyebrow{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);border:1px solid var(--line);border-radius:999px;padding:4px 12px;margin-bottom:22px}
+  h1{font-size:clamp(34px,6vw,58px);line-height:1.08;margin:0 0 18px;letter-spacing:-.02em}
+  .lead{font-size:20px;color:var(--muted);max-width:640px;margin:0 0 34px}
+  .install{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;max-width:560px}
+  .install code{flex:1;color:var(--acc);font-size:16px;overflow:auto;white-space:nowrap}
+  .install button{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:13px}
+  .install button:hover{color:var(--fg);border-color:var(--dim)}
+  .req{color:var(--dim);font-size:14px;margin-top:12px}
+  .pipe{margin:56px 0 0;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:22px 24px;overflow:auto}
+  .pipe .flow{display:flex;flex-wrap:wrap;gap:8px 0;align-items:center;font-size:15px;color:var(--acc)}
+  .pipe .flow span{white-space:nowrap}.pipe .flow i{color:var(--dim);font-style:normal;padding:0 10px}
+  .pipe p{margin:14px 0 0;color:var(--muted);font-size:15px}
+  section{padding:56px 0;border-top:1px solid var(--line)}
+  h2{font-size:26px;margin:0 0 26px;letter-spacing:-.01em}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:22px}
+  .card h3{margin:0 0 8px;font-size:17px}.card p{margin:0;color:var(--muted);font-size:15px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--dim);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+  td:first-child{color:var(--muted)}td:last-child{color:var(--fg)}
+  pre{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:18px 20px;overflow:auto;font-size:14px;line-height:1.7;color:var(--fg);margin:0}
+  pre .c{color:var(--dim)}pre .k{color:var(--acc)}
+  .status{background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--acc2);border-radius:10px;padding:18px 20px;color:var(--muted);font-size:15px}
+  footer{padding:36px 0 56px;color:var(--dim);font-size:14px;border-top:1px solid var(--line)}
+  footer a{color:var(--muted)}
+  @media (max-width:600px){nav a{margin-left:14px;font-size:14px}.hero{padding:44px 0 36px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand mono">nightqueue</div>
+    <nav>
+      <a href="https://github.com/nightqueue/nightqueue">GitHub</a>
+      <a href="https://www.npmjs.com/package/@nightqueue/nq">npm</a>
+      <a href="https://github.com/nightqueue/nightqueue/tree/main/docs">Docs</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="eyebrow">Runs on Claude Code · local · BUSL-1.1</div>
+    <h1>An autonomous queue of coding agents with its own memory.</h1>
+    <p class="lead">Queue the work during the day. Start the batch when you step away. Come back to pull requests — and to an agent that remembers what it learned last night.</p>
+    <div class="install">
+      <code id="cmd">npx @nightqueue/nq init</code>
+      <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('cmd').textContent).then(()=>{this.textContent='copied';setTimeout(()=>this.textContent='copy',1400)})">copy</button>
+    </div>
+    <p class="req">Needs <a href="https://claude.com/claude-code">Claude Code</a> with your own subscription, Node ≥ 22 and <code>gh</code>. Nothing leaves your machine.</p>
+
+    <div class="pipe">
+      <div class="flow mono">
+        <span>queue add</span><i>→</i><span>triage</span><i>→</i><span>explore</span><i>→</i><span>architect</span><i>→</i><span>implement</span><i>→</i><span>adversarial QA</span><i>→</i><span>verify</span><i>→</i><span>runtime check</span><i>→</i><span>pull request</span>
+      </div>
+      <p>Every phase is a dedicated subagent with its own instructions, running in a git worktree it cannot leave. Each phase writes an artifact the next one is gated on; a job that needs a decision stops with a written notice, and one command sends it back.</p>
+    </div>
+  </div>
+
+  <section id="what">
+    <h2>What it does</h2>
+    <div class="grid">
+      <div class="card"><h3>A backlog, not a chat</h3><p><code>nq queue add</code> records a deliverable; <code>nq queue run</code> works through the whole backlog unattended and comes back with one pull request per job.</p></div>
+      <div class="card"><h3>A memory that compounds</h3><p>Lessons, project decisions and structural indexes survive between runs — hybrid recall (BM25 + optional local embeddings), scoped per project and per org. Every run makes the next one cheaper.</p></div>
+      <div class="card"><h3>Human gates, not silent failures</h3><p>A job that needs a call stops with a written notice. <code>nq queue retry &lt;id&gt; --note "…"</code> answers it and the job goes back to the queue.</p></div>
+      <div class="card"><h3>Quality it can prove</h3><p>Adversarial QA, then verification against the checks your project already defines, then a runtime check. The pull request carries the evidence, not a promise.</p></div>
+      <div class="card"><h3>Orgs and projects</h3><p>One home, many repositories, grouped by org — each with its own decisions log and roadmap, exposed to Claude Code and Claude Desktop through an MCP server.</p></div>
+      <div class="card"><h3>Inspectable, resumable</h3><p>Every phase hands off through a file. A run can be read, resumed and audited after the fact; <code>nq queue session &lt;id&gt;</code> reopens the conversation that did the work.</p></div>
+    </div>
+  </section>
+
+  <section id="why">
+    <h2>Why not just a chat session</h2>
+    <table>
+      <thead><tr><th></th><th>A chat session</th><th>nightqueue</th></tr></thead>
+      <tbody>
+        <tr><td>Who drives</td><td>you, prompt by prompt</td><td>the pipeline, phase by phase</td></tr>
+        <tr><td>Memory</td><td>gone when the window closes</td><td>lessons and decisions persist per org</td></tr>
+        <tr><td>Quality gate</td><td>whatever you remember to ask</td><td>adversarial QA + your project's own checks, every run</td></tr>
+        <tr><td>Output</td><td>a diff in a terminal</td><td>a reviewable pull request with a report</td></tr>
+        <tr><td>When it runs</td><td>while you watch</td><td>while you sleep</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="start">
+    <h2>A first night</h2>
+<pre><span class="c"># once</span>
+npx @nightqueue/nq init                    <span class="c"># runtime, commands, MCP server, Claude Code plugin</span>
+cd your-repo && nightqueue setup           <span class="c"># register the project</span>
+
+<span class="c"># the day</span>
+nq queue add "fix the flaky worker"
+nq queue add "add the retry to the uploader"
+nq queue run                               <span class="c"># start the batch, detached, when you step away</span>
+
+<span class="c"># the morning</span>
+nq queue status                            <span class="c"># what each job became</span>
+nq queue retry 7 --note "rename the column" <span class="c"># answer a gate</span>
+nq queue close 8                           <span class="c"># merge its pull request through the closing pipeline</span></pre>
+    <p style="color:var(--muted);margin-top:16px">Inside Claude Code, <code>/nightqueue:queue</code> turns the plan under discussion into a job and <code>/nightqueue:resolve</code> runs the pipeline on the spot. <code>nightqueue open</code> starts the operator: investigate, triage and prepare a job without knowing any of the above.</p>
+  </section>
+
+  <section id="status">
+    <h2>Status</h2>
+    <div class="status">
+      Experimental, pre-1.0, used daily on real repositories by its author. The CLI, the MCP tools and the on-disk formats can still change between minor versions; every change a user would notice is in the <a href="https://github.com/nightqueue/nightqueue/blob/main/CHANGELOG.md">changelog</a>. Free and local. A hosted <strong>Team</strong> tier — one shared queue and memory per org, runners on your team's machines — is planned; the local product stays free and is never degraded to push it.
+    </div>
+  </section>
+
+  <footer>
+    <div><a href="https://github.com/nightqueue/nightqueue">Source</a> · <a href="https://github.com/nightqueue/nightqueue/issues">Issues</a> · <a href="https://github.com/nightqueue/nightqueue/blob/main/CONTRIBUTING.md">Contributing</a> · <a href="https://github.com/nightqueue/nightqueue/blob/main/SECURITY.md">Security</a> · <a href="https://github.com/nightqueue/nightqueue/blob/main/LICENSE">BUSL-1.1</a>, Apache 2.0 on 2029-09-04</div>
+  </footer>
+</div>
+</body>
+</html>
