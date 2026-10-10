@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>nightqueue — an autonomous queue of coding agents with its own memory</title>
-<meta name="description" content="Queue the work during the day. Start the batch when you step away. Come back to pull requests — and to an agent that remembers what it learned last night. Runs on Claude Code, on your machine.">
-<meta property="og:title" content="nightqueue">
-<meta property="og:description" content="An autonomous queue of coding agents with its own memory. Runs on Claude Code, on your machine.">
+<title>nightqueue — issues in, pull requests with proof out</title>
+<meta name="description" content="A local queue of coding agents that fixes and proves each job — reproducing and root-causing the risky ones. Runs on Claude Code, on your machine.">
+<meta property="og:title" content="nightqueue — issues in, pull requests with proof out">
+<meta property="og:description" content="A local queue of coding agents that fixes and proves each job — reproducing and root-causing the risky ones. Runs on Claude Code, on your machine.">
 <meta property="og:image" content="https://nightqueue.github.io/og.png">
 <meta property="og:url" content="https://nightqueue.github.io/">
 <meta name="twitter:card" content="summary_large_image">
@@ -26,6 +26,14 @@
   .eyebrow{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);border:1px solid var(--line);border-radius:999px;padding:4px 12px;margin-bottom:22px}
   h1{font-size:clamp(34px,6vw,58px);line-height:1.08;margin:0 0 18px;letter-spacing:-.02em}
   .lead{font-size:20px;color:var(--muted);max-width:640px;margin:0 0 34px}
+  .lead-2{font-size:16px;color:var(--dim);max-width:640px;margin:-18px 0 34px}
+  .surfaces{margin-top:28px}
+  .surfaces .grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .surfaces .card{padding:16px 18px}
+  .surfaces .card h3{font-size:15px}.surfaces .card p{font-size:14px}
+  .surfaces .note{color:var(--dim);font-size:14px;margin:12px 0 0}
+  .proof{white-space:pre-wrap;overflow-wrap:anywhere}
+  .proof-src{color:var(--muted);font-size:15px;margin:0 0 14px}
   .install{background:var(--bg2);border:1px solid var(--line);border-radius:10px;max-width:560px}
   .install .tabs{display:flex;gap:2px;padding:6px 8px 0;border-bottom:1px solid var(--line)}
   .install .tabs button{background:transparent;border:0;border-bottom:2px solid transparent;color:var(--dim);padding:6px 10px 8px;margin-bottom:-1px;cursor:pointer;font:13px ui-monospace,Menlo,monospace}
@@ -75,8 +83,9 @@
 
   <div class="hero">
     <div class="eyebrow">Runs on Claude Code · local · BUSL-1.1</div>
-    <h1>An autonomous queue of coding agents with its own memory.</h1>
-    <p class="lead">Queue the work during the day. Start the batch when you step away. Come back to pull requests — and to an agent that remembers what it learned last night.</p>
+    <h1>Issues in. Pull requests with proof out.</h1>
+    <p class="lead">Every job is proved before it ships. Bugs and risky changes are reproduced first, root-caused, fixed and attacked by adversarial QA, then checked at runtime; a docs or config change just runs your project's own checks. The pull request ships with Report → Cause → Changes → QA. A job that can't prove its fix stops at a gate with a written notice instead of opening a PR.</p>
+    <p class="lead-2">Queue the work during the day. Start the batch when you step away. Come back to pull requests — and to an agent that remembers what it learned last night.</p>
     <div class="install">
       <div class="tabs" role="tablist" aria-label="package manager">
         <button type="button" role="tab" data-pm="npm" aria-selected="true">npm</button>
@@ -89,6 +98,15 @@
       </div>
     </div>
     <p class="req">Needs <a href="https://claude.com/claude-code">Claude Code</a> with your own subscription, Node ≥ 22 and <code>gh</code>. Nothing leaves your machine.</p>
+
+    <div class="surfaces">
+      <div class="grid">
+        <div class="card"><h3>CLI</h3><p><code>nq</code> in your terminal</p></div>
+        <div class="card"><h3>Studio</h3><p>the queue, jobs and settings in your browser — <code>nq studio</code></p></div>
+        <div class="card"><h3>MCP</h3><p>talk to it from Claude Code and Claude Desktop</p></div>
+      </div>
+      <p class="note">Same queue, same pipeline, same memory underneath.</p>
+    </div>
 
     <div class="pipe">
       <div class="pipe-scroll">
@@ -178,13 +196,39 @@
     </div>
   </div>
 
+  <section id="proof">
+    <h2>What a job hands back</h2>
+    <p class="proof-src">The body of a merged pull request opened by nightqueue, trimmed (…): <a href="https://github.com/nightqueue/nightqueue/pull/73">nightqueue/nightqueue#73</a>.</p>
+<pre class="proof"><span class="k">## Report</span>
+The close of PR `#72` stopped at preflight with `checks-red`. CI had two failures unrelated to that diff, each in a different check, and both were clock-sensitive flakes (CI run 37814924665):
+- `test-worktree`: "queue_cancel with stop … release_worktree needs stop" failed with "the refused stop wrote to the row", because `attempt_rows[0].elapsed_s` went from 0 to 1.
+…
+
+<span class="k">## Cause</span>
+- **B1:** `ATTEMPT_ROWS` derives `elapsed_s`/`end_epoch` from `datetime('now')` while an attempt is open. The test claims a job, which leaves an open attempt, and compares `getJob` before and after the refused cancel. The comparison breaks whenever a one-second boundary falls between the two reads.
+…
+
+<span class="k">## Changes</span>
+- `test/mcp/server.test.mjs`: a `rowAtRest` helper drops only `elapsed_s`/`end_epoch` from `attempt_rows` before the before/after comparisons. Every other field is still compared, and the product SQL is untouched.
+…
+
+<span class="k">## QA</span>
+<span class="k">### Automated</span>
+- `npm test` (full suite) — PASSED ✅
+- `node --test test/queue/close-steps.test.mjs` (85 tests, the close engine against the fake gh, covering re-run then merge, failed twice, non-Actions red, aborted re-run and `--force`) — PASSED ✅
+…
+
+Opened by nightqueue</pre>
+  </section>
+
   <section id="what">
     <h2>What it does</h2>
     <div class="grid">
+      <div class="card"><h3>Root cause, with proof</h3><p>Your project's own checks run on every job. Higher risk tiers also reproduce the problem first, fix the cause, then face adversarial QA and a runtime check; the lowest tier runs implementation and verification only. The pull request carries the evidence, not a promise.</p></div>
+      <div class="card"><h3>From Linear</h3><p>Queue from a Linear issue link or <code>--origin linear:MK-42</code>. The runner reads the issue at claim. When the pull request merges, the close comments on the issue with the pull request, and moves it to the team's completed state only if it is not already completed or canceled and the team has a completed-type state.</p></div>
       <div class="card"><h3>A backlog, not a chat</h3><p><code>nq queue add</code> records a deliverable; <code>nq queue run</code> works through the whole backlog unattended and comes back with one pull request per job.</p></div>
       <div class="card"><h3>A memory that compounds</h3><p>Lessons, project decisions and structural indexes survive between runs — hybrid recall (BM25 + optional local embeddings), scoped per project and per org. Every run makes the next one cheaper.</p></div>
       <div class="card"><h3>Human gates, not silent failures</h3><p>A job that needs a call stops with a written notice. <code>nq queue retry &lt;id&gt; --note "…"</code> answers it and the job goes back to the queue.</p></div>
-      <div class="card"><h3>Quality it can prove</h3><p>Adversarial QA, then verification against the checks your project already defines, then a runtime check. The pull request carries the evidence, not a promise.</p></div>
       <div class="card"><h3>Orgs and projects</h3><p>One home, many repositories, grouped by org — each with its own decisions log and roadmap, exposed to Claude Code and Claude Desktop through an MCP server.</p></div>
       <div class="card"><h3>Inspectable, resumable</h3><p>Every phase hands off through a file. A run can be read, resumed and audited after the fact; <code>nq queue session &lt;id&gt;</code> reopens the conversation that did the work.</p></div>
     </div>
@@ -196,8 +240,9 @@
       <thead><tr><th></th><th>A chat session</th><th>nightqueue</th></tr></thead>
       <tbody>
         <tr><td>Who drives</td><td>you, prompt by prompt</td><td>the pipeline, phase by phase</td></tr>
+        <tr><td>Root cause</td><td>fixes what you described</td><td>reproduces first and fixes the cause on bugs and risky changes; proves every job</td></tr>
         <tr><td>Memory</td><td>gone when the window closes</td><td>lessons and decisions persist per org</td></tr>
-        <tr><td>Quality gate</td><td>whatever you remember to ask</td><td>adversarial QA + your project's own checks, every run</td></tr>
+        <tr><td>Quality gate</td><td>whatever you remember to ask</td><td>your project's own checks on every run; adversarial QA on bugs and risky changes</td></tr>
         <tr><td>Output</td><td>a diff in a terminal</td><td>a reviewable pull request with a report</td></tr>
         <tr><td>When it runs</td><td>while you watch</td><td>while you sleep</td></tr>
       </tbody>
